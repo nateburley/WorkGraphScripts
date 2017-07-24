@@ -1,5 +1,9 @@
 import sys
 
+
+################################################################################
+##EXTRACTS THE DATA FROM THE DARKNET TRAINING OUTPUT FILE
+
 #Gets the file used for writing and the file to store the results in
 training_output_file = sys.argv[1]
 input_file_length = int(sys.argv[2]) - 1
@@ -23,27 +27,37 @@ while (counter < 147):
     #print(line)
     counter += 1
 
-#Loops through the file one line at a time | 1818658
+#Loops through the file one line at a time
 while (counter < input_file_length):
     line = infile.readline()
-    first_entry = line.split(' ', 1)[0]
-    second_item = line.split(', ')
-    #If the first entry in the line is numeric, (a batch number) writes line to file
-    if first_entry[0].isdigit():
-        #Batch number extracted from line
-        batch_number = first_entry[:-1]
-        print("Batch number: {}".format(batch_number))
+    if (len(line.split()) > 1):
+        first_entry = line.split(' ', 1)[0]
+        second_item = line.split(', ')
+        #If the first entry in the line is numeric, (a batch number) writes line to file
+        #print("First digit: {}".format(first_entry[0]))
+        if first_entry[0].isdigit():
+            #Batch number extracted from line
+            batch_number = first_entry[:-1]
+            print("Batch number: {}".format(batch_number))
 
-        #Loss rate extracted from line
-        loss_rate = (second_item[1])[:-4]
-        print("Loss rate: {}\n".format(loss_rate))
+            #Loss rate extracted from line
+            loss_rate = (second_item[1])[:-3]
+            print("Loss rate: {}\n".format(loss_rate))
 
-        #Output information written to file
-        output_data = batch_number + ", " + loss_rate + "\n"
-        #print(output_data)
-        outfile.write(output_data)
+            #Output information written to file
+            output_data = batch_number + ", " + loss_rate + "\n"
+            #print(output_data)
+            outfile.write(output_data)
     #Increments counter
     counter += 1
+
+###############################################################################
+##GRAPHS THE DATA
+
+
+
+
+
 
 #Closes the files
 infile.close()
